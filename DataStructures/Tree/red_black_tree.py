@@ -13,3 +13,13 @@ def rotate_left(node): #Cuando hay un enlace rojo en la derecha
     arriba["color"] = 1 #1 es black
     arriba["left"]["color"] = 0 #0 es red
     return arriba
+def size_tree(root):
+    if root is not None:
+        return 1 + size_tree(root["left"]) + size_tree(root["right"])
+    else:
+        return 0
+def is_red(node):
+    if node is not None and node["color"] == 0:
+        return True
+    else:
+        return False
