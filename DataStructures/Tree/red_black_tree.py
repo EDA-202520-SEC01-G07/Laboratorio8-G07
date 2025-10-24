@@ -8,11 +8,13 @@ def default_compare(key, element):
     else:
         return 0
 def rotate_left(node): #Cuando hay un enlace rojo en la derecha
-    arriba = node["right"]
-    arriba["left"] = node
-    arriba["color"] = 1 #1 es black
-    arriba["left"]["color"] = 0 #0 es red
-    return arriba
+    rotar = node["right"]
+    temporal = rotar["left"]
+    rotar["left"] = node
+    node["right"] = temporal
+    node["color"] = 0 #Red
+    rotar["color"]=1 #Black
+    return rotar
 
 def rotate_right(node):
     if node or node["left"] is None:
@@ -34,3 +36,10 @@ def is_red(node):
         return True
     else:
         return False
+def flip_node_color(node):
+    if node is not None:
+        if node ["left"] ["color"]== 0:
+            node ["left"] ["color"]= 1
+        if node ["right"] ["color"]== 1:
+            node ["right"] ["color"]= 0
+    return node
