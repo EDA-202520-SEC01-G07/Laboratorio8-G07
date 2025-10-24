@@ -1,7 +1,7 @@
 """
   Estructura que contiene la información a guardar en una ``nodo`` de un árbol binario
 """
-
+""
 
 def new_node(key, value):
     """Estructura que contiene la información a guardar en un nodo de un árbol binario
