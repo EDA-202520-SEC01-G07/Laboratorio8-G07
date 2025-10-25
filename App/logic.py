@@ -55,6 +55,7 @@ def new_logic():
     analyzer["crimes"] = al.new_list()
     analyzer["dateIndex"] = rbt.new_map()
     # TODO Crear el índice ordenado por áreas reportadas
+    analyzer["areaIndex"] = rbt.new_map()
     return analyzer
 
 # Funciones para realizar la carga
@@ -82,7 +83,7 @@ def add_crime(analyzer, crime):
     al.add_last(analyzer['crimes'], crime)
     update_date_index(analyzer['dateIndex'], crime)
     # TODO Actualizar el indice por areas reportadas
-
+    update_area_index(analyzer['areaIndex'], crime)
     return analyzer
 
 def update_area_index(map, crime):
@@ -93,6 +94,7 @@ def update_area_index(map, crime):
     y si el area son ["", " ", None] se utiliza el valor por defecto 9999
     """
     # TODO Implementar actualizacion del indice por areas reportadas
+
     return map
 
 
