@@ -70,7 +70,7 @@ def main():
     """
     # bandera para controlar el ciclo del menu
     working = True
-    crimefile = 'Boston Crimes//crime-utf8.csv'
+    crimefile = 'BostonCrimes//crime-utf8.csv'
 
     # ciclo del menu
     while working:

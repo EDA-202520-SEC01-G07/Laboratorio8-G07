@@ -94,7 +94,17 @@ def update_area_index(map, crime):
     y si el area son ["", " ", None] se utiliza el valor por defecto 9999
     """
     # TODO Implementar actualizacion del indice por areas reportadas
-
+    area = crime['REPORTING_AREA']
+    if area == "" or area == " " or area is None:
+        area = 9999
+    area = int(area)
+    entry = rbt.get(map, area)
+    if entry is None:
+        lista = al.new_list()
+        al.add_last(lista, crime)
+        rbt.put(map, area, lista)
+    else:
+        al.add_last(entry, crime)
     return map
 
 
@@ -208,7 +218,7 @@ def index_height_areas(analyzer):
     Altura del arbol por areas
     """
     # TODO Retornar la altura del árbol por areas
-    pass
+    return rbt.height(analyzer["areaIndex"])
 
 
 def index_size_areas(analyzer):
@@ -216,7 +226,7 @@ def index_size_areas(analyzer):
     Numero de elementos en el indice por areas
     """
     # TODO Retornar el numero de elementos en el árbol por areas
-    pass
+    return rbt.size(analyzer["areaIndex"])
 
 
 def min_key_areas(analyzer):
@@ -224,7 +234,7 @@ def min_key_areas(analyzer):
     Llave mas pequena por areas
     """
     # TODO Retornar la llave más pequeña del árbol por áreas
-    pass
+    return rbt.get_min(analyzer["areaIndex"])
 
 
 def max_key_areas(analyzer):
@@ -232,7 +242,7 @@ def max_key_areas(analyzer):
     Llave mas grande por areas
     """
     # TODO Retornar la llave más grande del árbol por áreas
-    pass
+    return rbt.get_max(analyzer["areaIndex"])
 
 def get_crimes_by_range_area(analyzer, initialArea, finalArea):
     """
@@ -240,6 +250,8 @@ def get_crimes_by_range_area(analyzer, initialArea, finalArea):
     """
     # TODO Completar la consulta de crimenes por rango de areas
     totalcrimes = 0
+    rango = rbt.keys(analyzer["areaIndex"], initialArea, finalArea)
+    totalcrimes = rango["size"]
     return totalcrimes
 
 def get_crimes_by_range(analyzer, initialDate, finalDate):
