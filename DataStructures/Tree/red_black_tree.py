@@ -1,7 +1,8 @@
 from DataStructures.Tree import rbt_node as n
-
+from DataStructures.List import single_linked_list as lt
 def new_map():
     return {"root":None}
+#Funciones prerequisito
 def default_compare(key, element):
     if key < element:
         return -1
@@ -67,8 +68,10 @@ def flip_colors(node): #Cambia el color del nodo y de sus dos hijos
                 node["right"]["color"] = 0
     return node
 
+#Funciones del LAB
 def put(rbt, key, value): #Ingresa una pareja llave,valor. Si la llave ya existe, se reemplaza el valor.
-    insert_node(rbt["root"], key, value)
+    rbt["root"] = insert_node(rbt["root"], key, value)
+    rbt["root"]["color"] = 1
     return rbt
 
 def insert_node(root, key, value): #Ingresa una pareja llave,valor. Si la llave ya existe, se reemplaza el valor.
@@ -76,9 +79,9 @@ def insert_node(root, key, value): #Ingresa una pareja llave,valor. Si la llave 
         return n.new_node(key, value)
     cmp = default_compare(key, root["key"])
     if cmp == -1:
-        insert_node(root["left"], key, value)
+        root["left"] = insert_node(root["left"], key, value)
     elif cmp == 1:
-        insert_node(root["right"], key, value)
+        root["right"] = insert_node(root["right"], key, value)
     elif cmp == 0:
         root["value"] = value
         
@@ -104,3 +107,118 @@ def get_node(root, key):
             return get_node(root["left"], key)
         if cmp == 0:
             return get_node(root["right"], key)
+        
+def contains(rbt, key):
+    if get(rbt, key) is None:
+        return False
+    else:
+        return True
+    
+def size(rbt):
+    return size_tree(rbt["root"])
+    
+def size_tree(node):
+    if node is None:
+        return 0
+    else:
+        return 1 + size_tree(node['left']) + size_tree(node['right'])
+    
+def is_empty(rbt):
+    if rbt["root"] is None:
+        return True
+    return False
+
+#def key_set(): #Necesita def key_set_tree():
+
+#def value_set(): #Necesita def value_set_tree():
+
+def get_min(rbt):
+    return get_min_node(rbt["root"])
+
+def get_min_node(root):
+    if root is None:
+        return None
+    elif root["left"] is None:
+        return root["key"]
+    else:
+        return get_min_node(root["left"])
+    
+def get_max(rbt):
+    return get_max_node(rbt["root"])
+
+def get_max_node(root):
+    if root is None:
+        return None
+    elif root["right"] is None:
+        return root["key"]
+    else:
+        return get_max_node(root["right"])
+    
+def height(rbt):
+    return height_tree(rbt["root"], -1)
+
+def height_tree(root, contador):
+    if root is None:
+        return contador
+    else:
+        contador += 1
+        return max(height_tree(root["left"], contador), height_tree(root["right"], contador))
+    
+def keys(rbt, key_initial, key_final):
+    list_keys = lt.new_list()
+    return keys_range(rbt["root"], key_initial, key_final, list_keys)
+
+def keys_range(root, key_initial, key_final, list_keys):
+    if root is None:
+        return list_keys
+    else:
+        if key_initial <= root["key"] <= key_final:
+            lt.add_last(list_keys, root["key"])
+        if key_initial < root["key"]:
+            keys_range(root["left"], key_initial, key_final, list_keys)
+        if root["key"] < key_final:
+            keys_range(root["right"], key_initial, key_final, list_keys)
+        return list_keys
+
+def values(rbt, key_initial, key_final):
+    list_values = lt.new_list()
+    return values_range(rbt["root"], key_initial, key_final, list_values)
+
+def values_range(root, key_initial, key_final, list_value):
+        if root is None:
+            return list_value
+        else:
+            if key_initial <= root["key"] <= key_final:
+                lt.add_last(list_value, root["value"])
+            if key_initial < root["key"]:
+                values_range(root["left"], key_initial, key_final, list_value)
+            if root["key"] < key_final:
+                values_range(root["right"], key_initial, key_final, list_value)
+            return list_value
+        
+#Funciones extra para el reto
+def delete_min(rbt): 
+    rbt["root"] = delete_min_tree(rbt["root"])
+    return rbt["root"]
+
+def delete_min_tree(root): 
+    if root is None:
+        return None
+    elif root["left"] is None:
+        return root["right"]
+    else:
+        root["left"] = delete_min_tree(root["left"])
+        return root
+
+def delete_max(rbt): 
+    rbt["root"] = delete_max_tree(rbt["root"])
+    return rbt
+
+def delete_max_tree(root):
+    if root is None:
+        return None
+    elif root["right"] is None:
+        return root["left"]
+    else:
+        root["right"] = delete_max_tree(root["right"])
+        return root

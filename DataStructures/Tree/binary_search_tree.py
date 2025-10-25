@@ -121,7 +121,7 @@ def delete_min_tree(root):
         return root
 
 def delete_max(bst): 
-    return delete_max_tree(bst["root"])
+    bst["root"] = delete_max_tree(bst["root"])
 
 def delete_max_tree(root):
     if root is None:
