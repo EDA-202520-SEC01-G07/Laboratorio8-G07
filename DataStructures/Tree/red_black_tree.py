@@ -24,23 +24,25 @@ def is_red(node):
         return False
     
 def rotate_left(node): #Cuando hay un enlace rojo en la derecha
+    if node is None or node["right"] is None:
+        return None
     rotar = node["right"]
     temporal = rotar["left"]
     rotar["left"] = node
     node["right"] = temporal
+    rotar["color"]= node["color"]
     node["color"] = 0 #Red
-    rotar["color"]=1 #Black
     return rotar
 
 def rotate_right(node): #Cuando hay dos enlaces rojos seguidos
-    if node or node["left"] is None:
+    if node is None or node["left"] is None:
         return None
-    else:
-        left = node["left"]
-        left["right"] = node
-        left["color"] = 1
-        left["right"]["color"] = 0
-    return left 
+    left = node["left"]
+    node["left"]=left["right"]
+    left["right"] = node
+    left["color"] = node["color"]
+    node["color"] = 0
+    return left
 
 def flip_node_color(node): #Cambia el color de un solo nodo
     if node is not None:
@@ -86,11 +88,11 @@ def insert_node(root, key, value): #Ingresa una pareja llave,valor. Si la llave 
         root["value"] = value
         
     if is_red(root["right"]) and not is_red(root["left"]): #Si hay un enlace rojo en la derecha
-        rotate_left(root)
+        root = rotate_left(root)
+    if is_red(root["left"]) and is_red(root["left"]["left"]): #Si hay dos enlaces rojos a la izq seguidos
+        root = rotate_right(root)
     if is_red(root["right"]) and is_red(root["left"]): #Si los hijos tienen enlace rojo
         flip_colors(root)
-    if is_red(root["left"]) and is_red(root["left"]["left"]): #Si hay dos enlaces rojos a la izq seguidos
-        rotate_right(root)
     return root 
 
 def get(rbt, key): #Devuelve el valor de la llave
@@ -105,7 +107,7 @@ def get_node(root, key):
     else:
         if cmp == -1:
             return get_node(root["left"], key)
-        if cmp == 0:
+        elif cmp == 1:
             return get_node(root["right"], key)
         
 def contains(rbt, key):

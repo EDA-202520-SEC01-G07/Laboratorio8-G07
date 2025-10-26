@@ -60,6 +60,7 @@ def print_menu():
     print("3- Consultar crimenes en un rango de fechas")
     print("4- Consultar crimenes por codigo y fecha")
     #TODO Agregar opción 5 en el menú, consultar por REPORTING_AREA
+    print("5 - Consultar crímenes por un rango de áreas")
     print("0- Salir")
     print("*******************************************")
 
@@ -89,6 +90,10 @@ def main():
             print('Elementos en el arbol: ' + str(logic.index_size(control)))
             print('Menor Llave: ' + str(logic.min_key(control)))
             print('Mayor Llave: ' + str(logic.max_key(control)))
+            print('Altura del arbol de áreas: ' + str(logic.index_height_areas(control)))
+            print('Elementos en el arbol de áreas: ' + str(logic.index_size_areas(control)))
+            print('Menor Llave: ' + str(logic.min_key_areas(control)))
+            print('Mayor Llave: ' + str(logic.max_key_areas(control)))
 
         elif int(inputs[0]) == 3:
             print("\nBuscando crimenes en un rango de fechas: ")
@@ -110,6 +115,10 @@ def main():
             print("\nBuscando crimenes en un rango de areas: ")
             print("Las areas estan numeradas con enteros (1 - 962)")
             print("Un area desconocida tiene el el numero 9999")
+            initial = int(input("Área inicial: "))
+            final = int(input("Área final: "))
+            total = logic.get_crimes_by_range_area(control, initial, final)
+            print("\nTotal de crimenes en el rango de áreas: " + str(total))
         else:
             sys.exit(0)
     sys.exit(0)

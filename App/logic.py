@@ -33,6 +33,7 @@ import datetime
 # TODO Realice la importación de LinearProbing (lp) o Separate Chaining (sp) como estructura de datos auxiliar para sus requerimientos
 from DataStructures.Tree import red_black_tree as rbt
 from DataStructures.List import array_list as al
+from DataStructures.List import single_linked_list as sl
 from DataStructures.Map import map_linear_probing as lp
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
 
@@ -203,14 +204,14 @@ def min_key(analyzer):
     """
     Llave mas pequena
     """
-    return rbt.left_key(analyzer["dateIndex"])
+    return rbt.get_min(analyzer["dateIndex"])
 
 
 def max_key(analyzer):
     """
     Llave mas grande
     """
-    return rbt.right_key(analyzer["dateIndex"])
+    return rbt.get_max(analyzer["dateIndex"])
 
 
 def index_height_areas(analyzer):
@@ -250,8 +251,10 @@ def get_crimes_by_range_area(analyzer, initialArea, finalArea):
     """
     # TODO Completar la consulta de crimenes por rango de areas
     totalcrimes = 0
-    rango = rbt.keys(analyzer["areaIndex"], initialArea, finalArea)
-    totalcrimes = rango["size"]
+    rango = rbt.values(analyzer["areaIndex"], initialArea, finalArea)
+    for i in range(al.size(rango)):
+        elem = sl.get_element(rango, i)
+        totalcrimes += elem["size"]
     return totalcrimes
 
 def get_crimes_by_range(analyzer, initialDate, finalDate):
