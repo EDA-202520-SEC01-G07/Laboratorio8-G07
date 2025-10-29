@@ -131,9 +131,30 @@ def is_empty(rbt):
     return False
 
 #def key_set(): #Necesita def key_set_tree():
+def key_set(rbt):
+    list_keys = lt.new_list()
+    return key_set_tree(rbt["root"], list_keys)
+def key_set_tree(root, list_keys):
+    if root is None:
+        return list_keys
+    else:
+        key_set_tree(root["left"], list_keys)
+        lt.add_last(list_keys, root["key"])
+        key_set_tree(root["right"], list_keys)
+        return list_keys
 
 #def value_set(): #Necesita def value_set_tree():
-
+def value_set(rbt):
+    list_values = lt.new_list()
+    return value_set_tree(rbt["root"], list_values)
+def value_set_tree(root, list_values):
+    if root is None:
+        return list_values
+    else:
+        value_set_tree(root["left"], list_values)
+        lt.add_last(list_values, root["value"])
+        value_set_tree(root["right"], list_values)
+        return list_values
 def get_min(rbt):
     return get_min_node(rbt["root"])
 
